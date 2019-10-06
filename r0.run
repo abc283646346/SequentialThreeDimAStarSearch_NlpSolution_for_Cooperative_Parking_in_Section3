@@ -1,0 +1,27 @@
+reset;
+model C0.mod;
+include initial_guess0.INIVAL;
+solve;
+shell ("del " & ("initial_guess1.INIVAL"));
+for {k in Iv} {
+	for {i in I} {
+		printf "let x[%d,%d]:=%5.3f;\n", k, i, x[k,i]>>("initial_guess1.INIVAL");
+		printf "let y[%d,%d]:=%5.3f;\n", k, i, y[k,i]>>("initial_guess1.INIVAL");
+		printf "let xr[%d,%d]:=%5.3f;\n", k, i, xr[k,i]>>("initial_guess1.INIVAL");
+		printf "let yr[%d,%d]:=%5.3f;\n", k, i, yr[k,i]>>("initial_guess1.INIVAL");
+		printf "let xf[%d,%d]:=%5.3f;\n", k, i, xf[k,i]>>("initial_guess1.INIVAL");
+		printf "let yf[%d,%d]:=%5.3f;\n", k, i, yf[k,i]>>("initial_guess1.INIVAL");	
+		printf "let theta[%d,%d]:=%5.3f;\n", k, i, theta[k,i]>>("initial_guess1.INIVAL");
+		printf "let v[%d,%d]:=%5.3f;\n", k, i, v[k,i]>>("initial_guess1.INIVAL");
+		printf "let a[%d,%d]:=%5.3f;\n", k, i, a[k,i]>>("initial_guess1.INIVAL");
+		printf "let phy[%d,%d]:=%5.3f;\n", k, i, phy[k,i]>>("initial_guess1.INIVAL");		
+		printf "let w[%d,%d]:=%5.3f;\n", k, i, w[k,i]>>("initial_guess1.INIVAL");
+		for {j in {1..4}} {
+			for {m in {1..2}} {
+				printf "let egoV[%d,%d,%d,%d]:=%5.3f;\n", k,i,j,m,egoV[k,i,j,m]>>("initial_guess1.INIVAL");
+			}
+		}
+	}
+}
+printf "let tf:= %5.3f;\n",tf>>("initial_guess1.INIVAL");
+close ("initial_guess1.INIVAL");

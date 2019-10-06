@@ -1,0 +1,59 @@
+reset;
+model C1.mod;
+include initial_guess1.INIVAL;
+option solver ipopt;
+solve;
+printf "1">>("flag.txt");
+shell ("del " & ("x.txt"));
+shell ("del " & ("y.txt"));
+shell ("del " & ("theta.txt"));
+shell ("del " & ("phy.txt"));
+shell ("del " & ("a.txt"));
+shell ("del " & ("v.txt"));
+shell ("del " & ("w.txt"));
+shell ("del " & ("terminal_time.txt"));
+for {k in Iv} {
+	for {i in I} {
+		printf "%5.4f;", x[k,i]>>("x.txt");
+		printf "%5.4f;", y[k,i]>>("y.txt");
+		printf "%5.4f;", theta[k,i]>>("theta.txt");
+		printf "%5.4f;", phy[k,i]>>("phy.txt");
+		printf "%5.4f;", a[k,i]>>("a.txt");
+		printf "%5.4f;", v[k,i]>>("v.txt");
+		printf "%5.4f;", w[k,i]>>("w.txt");
+	}
+}
+printf "%5.4f;", tf>>("terminal_time.txt");
+close ("x.txt");
+close ("y.txt");
+close ("theta.txt");
+close ("v.txt");
+close ("a.txt");
+close ("phy.txt");
+close ("w.txt");
+close ("terminal_time.txt");
+display(tf);
+
+shell ("del " & ("initial_guess2.INIVAL"));
+for {k in Iv} {
+	for {i in I} {
+		printf "let x[%d,%d]:=%5.3f;\n", k, i, x[k,i]>>("initial_guess2.INIVAL");
+		printf "let y[%d,%d]:=%5.3f;\n", k, i, y[k,i]>>("initial_guess2.INIVAL");
+		printf "let xr[%d,%d]:=%5.3f;\n", k, i, xr[k,i]>>("initial_guess2.INIVAL");
+		printf "let yr[%d,%d]:=%5.3f;\n", k, i, yr[k,i]>>("initial_guess2.INIVAL");
+		printf "let xf[%d,%d]:=%5.3f;\n", k, i, xf[k,i]>>("initial_guess2.INIVAL");
+		printf "let yf[%d,%d]:=%5.3f;\n", k, i, yf[k,i]>>("initial_guess2.INIVAL");	
+		printf "let theta[%d,%d]:=%5.3f;\n", k, i, theta[k,i]>>("initial_guess2.INIVAL");
+		printf "let v[%d,%d]:=%5.3f;\n", k, i, v[k,i]>>("initial_guess2.INIVAL");
+		printf "let a[%d,%d]:=%5.3f;\n", k, i, a[k,i]>>("initial_guess2.INIVAL");
+		printf "let phy[%d,%d]:=%5.3f;\n", k, i, phy[k,i]>>("initial_guess2.INIVAL");		
+		printf "let w[%d,%d]:=%5.3f;\n", k, i, w[k,i]>>("initial_guess2.INIVAL");
+		for {j in {1..4}} {
+			for {m in {1..2}} {
+				printf "let egoV[%d,%d,%d,%d]:=%5.3f;\n", k,i,j,m,egoV[k,i,j,m]>>("initial_guess2.INIVAL");
+			}
+		}
+	}
+}
+printf "let tf:= %5.3f;\n",tf>>("initial_guess2.INIVAL");
+close ("initial_guess2.INIVAL");
